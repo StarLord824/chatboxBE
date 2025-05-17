@@ -4,6 +4,8 @@ import userRouter from './Routes/user';
 import chatRouter from './Routes/chats';
 import messageRouter from './Routes/message';
 
+import wsConnection from './wsConnection';
+
 const app = express();
 
 app.use(express.json());  // Parses incoming JSON requests

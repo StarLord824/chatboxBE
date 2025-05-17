@@ -8,9 +8,9 @@ const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.configDotenv)();
-const router = (0, express_1.Router)();
+const userRouter = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
-router.get("/", async (req, res) => {
+userRouter.get("/", async (req, res) => {
     console.log("User route hit");
     const users = await prisma.user.findMany({
         select: {
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     });
     res.status(200).json(users);
 });
-router.post("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
     console.log("Login route hit");
     const { email, password } = req.body;
     console.log(email, password);
@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
         return;
     }
 });
-router.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
     console.log("Signup route hit");
     console.log(`${req.body}`);
     const { email, password, name } = req.body;
@@ -94,4 +94,4 @@ router.post("/signup", async (req, res) => {
         return;
     }
 });
-exports.default = router;
+exports.default = userRouter;
