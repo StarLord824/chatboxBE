@@ -8,6 +8,7 @@ import wsConnection from './wsConnection';
 
 const app = express();
 
+wsConnection();  // Initialize WebSocket connection
 app.use(express.json());  // Parses incoming JSON requests
 app.use(express.urlencoded({ extended: true }));  // Parses URL-encoded data
 
