@@ -19,7 +19,11 @@ model User {
   id       Int       @id @default(autoincrement())
   name     String
   // Relations
-  chats    ChatParticipant[]
+  email    String    @unique
+  hashedPassword String
+  // chats    ChatParticipant[]
+  chats    Chat[]    @relation("UserChats")
+  createdAt DateTime @default(now())
   messages Message[]
 }
 
@@ -27,32 +31,33 @@ model Chat {
   id          Int                @id @default(autoincrement())
   createdAt   DateTime           @default(now())
   // Relations
-  participants ChatParticipant[]
+  participants User[]            @relation("UserChats")
   messages     Message[]
 }
-
-model ChatParticipant {
-  id      Int    @id @default(autoincrement())
-  user    User   @relation(fields: [userId], references: [id])
-  userId  Int
-  chat    Chat   @relation(fields: [chatId], references: [id])
-  chatId  Int
-
-  @@unique([userId, chatId]) // Prevent duplicate entries
-}
-
 model Message {
   id        Int      @id @default(autoincrement())
   content   String
   timestamp DateTime @default(now())
 
   // Relations
-  chat     Chat   @relation(fields: [chatId], references: [id])
   chatId   Int
+  chat     Chat   @relation(fields: [chatId], references: [id])
 
-  sender   User   @relation(fields: [senderId], references: [id])
   senderId Int
+  sender   User   @relation(fields: [senderId], references: [id])
 }
+
+// model ChatParticipant {
+//   id      Int    @id @default(autoincrement())
+//   userId  Int
+//   user    User   @relation(fields: [userId], references: [id])
+
+//   chatId  Int
+//   chat    Chat   @relation(fields: [chatId], references: [id])
+
+//   @@unique([userId, chatId]) // Prevent duplicate entries
+// }
+
 
 
 // model User {
